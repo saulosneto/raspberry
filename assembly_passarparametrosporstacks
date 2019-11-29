@@ -1,0 +1,15 @@
+main: LDR R1, value @load valueSTR R1, resultSWI #11value:  .word0x0000C123result: .word 0labeloperation operandcomments
+ADR  R1, valueMOV  R1, R1, LSL # 0x1 STR R1, resultSWI #11value:   .word  4242result:  .word    0Add two numbersmain:ADR  R1, value1ADR  R2, value2ADD  R1, R1, R2STR  R1, resultSWI  # 11 value1: .word 0x00000001 value2: .word 0x00000002 result: .word 064 - bit additionADR R0, value1LDR R1, [R0] LDR R2, [R0, #4]ADR  R0, value2LDR  R3, [R0]LDR  R4, [R0, # 4] ADDS R6, R2, R4ADC R5, R1, R3STR R5, [R0] STR R6, [R0, #4]SWI  # 11 value1: .word 0x00000001, 0xF0000000 value2: .word 0x00000000, 0x10000000 result: .word 001 F0000000 + 00100000000200000000 R1 R2 + R3 R4R5 R6CLoops• For loopsfor(i - 0; i < 10; i++) {
+                a[i] = 0;
+        }
+        MOV R1, #0ADR  R2, AMOV  R0, # 0 LOOP: CMP R0, #10BGE  EXITSTR  R1, [R2, R0, LSL # 2
+] ADD R0, R0, #1B    LOOPEXIT:  .. 
+Loops• While loopsLOOP: ...    ; evaluate expressionBEQ  EXIT...   ; loop bodyB    LOOPEXIT: ...ADR  R1, value1ADR  R2, value2CMP  R1, R2BHI  Done  MOV  R1, R2Done:  STR  R1, resultSWI  # 11 value1: .word 4 value2: .word 9 resultado: .word 0 GCDint gcd(int I, int j) {
+        while (i != j) {
+                if (i > j) i -= j;
+                elsej -= i;
+        }
+}
+GCDLoop: CMP R1, R2SUBGT R1, R1, R2SUBLT R2, R2, R1BNE loop
+an array DATA of length LENGTHADR R0, DATA @ R0 addrEOR R1, R1, R1 @ R1 countLDR R2, Length @ R2 indexCMP R2, #0BEQ   DoneCount negativesloop:LDR   R3, [R0]CMP   R3, # 0B PL looptestADD R1, R1, #1 @ it’s neg.looptest:ADD   R0, R0, # 4 SUBS R2, R2, #1BNE   loopSubroutines
+Len, BufferA, ADR  R0, BufferLenADR  R1, BufferAADR  R2, BufferBBL   Subr Caller MOV  R0, # BufferLenSTR R0, [SP, #-4] !MOV R0, = BufferASTR R0, [SP, #-4] !MOV R0, = BufferBSTR R0, [SP, #-4] !BL Subr
