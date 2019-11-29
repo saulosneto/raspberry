@@ -1,0 +1,23 @@
+Terminal:
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install samba samba-common-bin
+mkdir /home/pi/shared
+sudo nano /etc/samba/smb.conf
+security = user
+
+No smb.conf adicionar: (se nao tiver o nano use o editor de sua preferência ou baixe o nano pelo apt get)
+
+[NAS]
+path = /home/pi/shared
+writeable=Yes
+create mask=0777
+directory mask=0777
+public=no
+
+Terminal:
+
+
+sudo smbpasswd -a pi
+sudo systemctl restart smbd
